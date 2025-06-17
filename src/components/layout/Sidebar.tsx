@@ -8,12 +8,15 @@ import {
   GitBranch,
   Upload,
   Settings,
-  HelpCircle
+  HelpCircle,
+  History,
+  BarChart3
 } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Generate Quiz', href: '/quiz', icon: Upload },
+  { name: 'Quiz History', href: '/quiz-history', icon: History },
   { name: 'Chat with Notes', href: '/chat', icon: MessageCircle },
   { name: 'Flashcards', href: '/flashcards', icon: CreditCard },
   { name: 'Mind Maps', href: '/mindmap', icon: GitBranch },

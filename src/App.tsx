@@ -7,6 +7,8 @@ import { RegisterForm } from './components/auth/RegisterForm';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
 import { Quiz } from './pages/Quiz';
+import { QuizHistory } from './pages/QuizHistory';
+import { QuizAttempts } from './pages/QuizAttempts';
 import { Chat } from './pages/Chat';
 import { Flashcards } from './pages/Flashcards';
 import { MindMap } from './pages/MindMap';
@@ -74,6 +76,16 @@ function AppContent() {
         <Route path="/quiz" element={
           <ProtectedRoute>
             <Quiz />
+          </ProtectedRoute>
+        } />
+        <Route path="/quiz-history" element={
+          <ProtectedRoute>
+            <QuizHistory />
+          </ProtectedRoute>
+        } />
+        <Route path="/quiz-attempts/:quizId" element={
+          <ProtectedRoute>
+            <QuizAttempts />
           </ProtectedRoute>
         } />
         <Route path="/chat" element={
