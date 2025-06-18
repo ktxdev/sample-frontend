@@ -10,7 +10,8 @@ import {
   Target,
   BookOpen,
   Plus,
-  Upload
+  Upload,
+  Sparkles
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -25,17 +26,17 @@ const stats = [
     color: 'text-blue-600'
   },
   {
-    label: 'Study Sessions',
-    value: '156',
-    change: '+8%',
+    label: 'Notes Created',
+    value: '18',
+    change: '+15%',
     icon: BookOpen,
     color: 'text-emerald-600'
   },
   {
-    label: 'Flashcards Created',
-    value: '89',
-    change: '+23%',
-    icon: CreditCard,
+    label: 'Study Sessions',
+    value: '156',
+    change: '+8%',
+    icon: Clock,
     color: 'text-purple-600'
   },
   {
@@ -54,6 +55,13 @@ const recentActivity = [
     subtitle: 'Completed with 92% score',
     time: '2 hours ago',
     icon: FileText
+  },
+  {
+    type: 'notes',
+    title: 'Machine Learning Notes',
+    subtitle: 'Generated from lecture video',
+    time: '3 hours ago',
+    icon: BookOpen
   },
   {
     type: 'flashcard',
@@ -87,24 +95,24 @@ const quickActions = [
     color: 'from-blue-500 to-blue-600'
   },
   {
+    title: 'Generate Notes from Files',
+    description: 'Create comprehensive notes from any document or video',
+    icon: Sparkles,
+    href: '/notes',
+    color: 'from-emerald-500 to-emerald-600'
+  },
+  {
     title: 'Chat with Notes',
     description: 'Ask questions about your uploaded documents',
     icon: MessageCircle,
     href: '/chat',
-    color: 'from-emerald-500 to-emerald-600'
+    color: 'from-purple-500 to-purple-600'
   },
   {
     title: 'Create Flashcards',
     description: 'Build flashcard decks for spaced repetition',
     icon: CreditCard,
     href: '/flashcards',
-    color: 'from-purple-500 to-purple-600'
-  },
-  {
-    title: 'Design Mind Map',
-    description: 'Visualize concepts and relationships',
-    icon: GitBranch,
-    href: '/mindmap',
     color: 'from-orange-500 to-orange-600'
   }
 ];

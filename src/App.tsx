@@ -11,6 +11,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Quiz } from './pages/Quiz';
 import { QuizHistory } from './pages/QuizHistory';
 import { QuizAttempts } from './pages/QuizAttempts';
+import { Notes } from './pages/Notes';
 import { Chat } from './pages/Chat';
 import { Flashcards } from './pages/Flashcards';
 import { MindMap } from './pages/MindMap';
@@ -88,14 +89,19 @@ function AppContent() {
             <QuizHistory />
           </ProtectedRoute>
         } />
+        <Route path="/quiz-analytics" element={
+          <ProtectedRoute>
+            <QuizHistory />
+          </ProtectedRoute>
+        } />
         <Route path="/quiz-attempts/:quizId" element={
           <ProtectedRoute>
             <QuizAttempts />
           </ProtectedRoute>
         } />
-        <Route path="/quiz-analytics" element={
+        <Route path="/notes" element={
           <ProtectedRoute>
-            <QuizHistory />
+            <Notes />
           </ProtectedRoute>
         } />
         <Route path="/chat" element={

@@ -15,7 +15,9 @@ import {
   ChevronDown,
   ChevronRight,
   List,
-  Plus
+  Plus,
+  BookOpen,
+  Sparkles
 } from 'lucide-react';
 
 const navigation = [
@@ -30,6 +32,7 @@ const navigation = [
       { name: 'Quiz Analytics', href: '/quiz-analytics', icon: BarChart3 }
     ]
   },
+  { name: 'Generate Notes', href: '/notes', icon: BookOpen },
   { name: 'Chat with Notes', href: '/chat', icon: MessageCircle },
   { name: 'Flashcards', href: '/flashcards', icon: CreditCard },
   { name: 'Mind Maps', href: '/mindmap', icon: GitBranch },
