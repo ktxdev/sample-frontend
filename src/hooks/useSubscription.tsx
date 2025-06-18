@@ -103,7 +103,7 @@ const SubscriptionContext = createContext<SubscriptionContextType | undefined>(u
 export function SubscriptionProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   
-  const currentPlan = plans.find(plan => plan.id === user?.subscription.plan) || plans[0];
+  const currentPlan = plans.find(plan => plan.id === user?.subscription?.plan) || plans[0];
   
   const canUseFeature = (feature: string): boolean => {
     if (!user) return false;
