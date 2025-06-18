@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   Upload, 
   FileText, 
@@ -9,10 +10,15 @@ import {
   X, 
   ChevronRight,
   RefreshCw,
-  Download
+  Download,
+  Play,
+  Save,
+  Settings,
+  Hash
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
 import { Quiz as QuizType, Question } from '../types';
 
 const mockQuiz: QuizType = {
@@ -65,14 +71,15 @@ const mockQuiz: QuizType = {
 };
 
 export function Quiz() {
+  const navigate = useNavigate();
   const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'processing' | 'complete'>('idle');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [quiz, setQuiz] = useState<QuizType | null>(null);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [answers, setAnswers] = useState<number[]>([]);
-  const [showResult, setShowResult] = useState(false);
-  const [quizComplete, setQuizComplete] = useState(false);
+  const [quizSettings, setQuizSettings] = useState({
+    name: '',
+    numberOfQuestions: 10,
+    difficulty: 'medium' as 'easy' | 'medium' | 'hard'
+  });
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
@@ -97,50 +104,30 @@ export function Quiz() {
     // Simulate AI processing
     await new Promise(resolve => setTimeout(resolve, 3000));
     setUploadState('complete');
-    setQuiz(mockQuiz);
-  };
-
-  const handleAnswerSelect = (answerIndex: number) => {
-    setSelectedAnswer(answerIndex);
-  };
-
-  const handleNextQuestion = () => {
-    if (selectedAnswer !== null) {
-      const newAnswers = [...answers];
-      newAnswers[currentQuestion] = selectedAnswer;
-      setAnswers(newAnswers);
-      
-      if (currentQuestion < quiz!.questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-        setSelectedAnswer(null);
-      } else {
-        setQuizComplete(true);
-        calculateResults(newAnswers);
-      }
-    }
-  };
-
-  const calculateResults = (finalAnswers: number[]) => {
-    const correct = finalAnswers.reduce((count, answer, index) => {
-      return count + (answer === quiz!.questions[index].correctAnswer ? 1 : 0);
-    }, 0);
     
-    setTimeout(() => setShowResult(true), 500);
+    // Generate quiz with user settings
+    const generatedQuiz: QuizType = {
+      ...mockQuiz,
+      id: Date.now().toString(),
+      title: quizSettings.name || `Quiz from ${file.name}`,
+      difficulty: quizSettings.difficulty,
+      questions: mockQuiz.questions.slice(0, quizSettings.numberOfQuestions),
+      createdAt: new Date()
+    };
+    
+    setQuiz(generatedQuiz);
   };
 
-  const resetQuiz = () => {
-    setCurrentQuestion(0);
-    setSelectedAnswer(null);
-    setAnswers([]);
-    setShowResult(false);
-    setQuizComplete(false);
+  const handleSaveQuiz = () => {
+    // In a real app, this would save to the backend
+    console.log('Saving quiz:', quiz);
+    navigate('/quiz-history');
   };
 
-  const score = answers.reduce((count, answer, index) => {
-    return count + (answer === quiz?.questions[index].correctAnswer ? 1 : 0);
-  }, 0);
-
-  const percentage = quiz ? Math.round((score / quiz.questions.length) * 100) : 0;
+  const handleTakeQuiz = () => {
+    // Navigate to quiz taking interface
+    navigate(`/quiz/${quiz?.id}/take`);
+  };
 
   if (uploadState === 'idle') {
     return (
@@ -150,6 +137,56 @@ export function Quiz() {
           <p className="text-gray-600">Upload a PDF document and our AI will create a comprehensive quiz for you</p>
         </div>
 
+        {/* Quiz Settings */}
+        <Card className="p-6 mb-6">
+          <div className="flex items-center space-x-3 mb-6">
+            <Settings className="w-6 h-6 text-indigo-600" />
+            <h2 className="text-lg font-semibold text-gray-900">Quiz Settings</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Input
+              label="Quiz Name (Optional)"
+              value={quizSettings.name}
+              onChange={(e) => setQuizSettings(prev => ({ ...prev, name: e.target.value }))}
+              placeholder="Enter quiz name..."
+            />
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Questions
+              </label>
+              <select
+                value={quizSettings.numberOfQuestions}
+                onChange={(e) => setQuizSettings(prev => ({ ...prev, numberOfQuestions: parseInt(e.target.value) }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value={5}>5 Questions</option>
+                <option value={10}>10 Questions</option>
+                <option value={15}>15 Questions</option>
+                <option value={20}>20 Questions</option>
+                <option value={25}>25 Questions</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Difficulty Level
+              </label>
+              <select
+                value={quizSettings.difficulty}
+                onChange={(e) => setQuizSettings(prev => ({ ...prev, difficulty: e.target.value as 'easy' | 'medium' | 'hard' }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+        </Card>
+
+        {/* File Upload */}
         <Card className="p-8">
           <div {...getRootProps()} className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
             isDragActive ? 'border-indigo-400 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400'
@@ -188,8 +225,8 @@ export function Quiz() {
                     <Loader className="w-6 h-6 text-indigo-600 animate-spin" />
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Processing Document</h3>
-                <p className="text-gray-600">Our AI is analyzing your PDF and generating quiz questions...</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Generating Quiz</h3>
+                <p className="text-gray-600">Our AI is analyzing your PDF and creating {quizSettings.numberOfQuestions} {quizSettings.difficulty} questions...</p>
               </>
             )}
           </div>
@@ -206,155 +243,104 @@ export function Quiz() {
     );
   }
 
-  if (quizComplete && showResult) {
-    return (
-      <div className="max-w-2xl mx-auto">
-        <Card className="p-8 text-center">
-          <div className="mb-6">
-            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
-              percentage >= 70 ? 'bg-emerald-100' : percentage >= 50 ? 'bg-yellow-100' : 'bg-red-100'
-            }`}>
-              {percentage >= 70 ? (
-                <Check className="w-8 h-8 text-emerald-600" />
-              ) : (
-                <X className="w-8 h-8 text-red-600" />
-              )}
+  // Quiz Generated Successfully
+  return (
+    <div className="max-w-4xl mx-auto">
+      <Card className="p-8">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Check className="w-8 h-8 text-emerald-600" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Quiz Generated Successfully!</h2>
+          <p className="text-gray-600">Your quiz has been created and is ready to use</p>
+        </div>
+
+        {/* Quiz Preview */}
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{quiz.title}</h3>
+              <p className="text-gray-600">{quiz.description}</p>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Quiz Complete!</h2>
-            <p className="text-gray-600 mb-6">Here are your results:</p>
+            <div className="text-right">
+              <div className="flex items-center space-x-4 text-sm text-gray-600">
+                <div className="flex items-center space-x-1">
+                  <Hash className="w-4 h-4" />
+                  <span>{quiz.questions.length} questions</span>
+                </div>
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  quiz.difficulty === 'easy' ? 'bg-emerald-100 text-emerald-700' :
+                  quiz.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                  'bg-red-100 text-red-700'
+                }`}>
+                  {quiz.difficulty}
+                </span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-6 mb-6">
-            <div className="text-4xl font-bold text-gray-900 mb-2">{percentage}%</div>
-            <div className="text-gray-600 mb-4">
-              {score} out of {quiz.questions.length} questions correct
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-3">
-              <div 
-                className={`h-3 rounded-full transition-all duration-1000 ${
-                  percentage >= 70 ? 'bg-emerald-600' : percentage >= 50 ? 'bg-yellow-600' : 'bg-red-600'
-                }`}
-                style={{ width: `${percentage}%` }}
-              ></div>
-            </div>
-          </div>
-
-          <div className="space-y-3 mb-6">
-            <h3 className="font-semibold text-gray-900">Review Answers:</h3>
-            {quiz.questions.map((question, index) => (
-              <div key={index} className="text-left bg-white rounded-lg p-4 border">
-                <div className="flex items-start space-x-3">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                    answers[index] === question.correctAnswer ? 'bg-emerald-100' : 'bg-red-100'
-                  }`}>
-                    {answers[index] === question.correctAnswer ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
-                    ) : (
-                      <X className="w-4 h-4 text-red-600" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900 mb-1">{question.question}</p>
-                    <p className="text-sm text-gray-600">
-                      Your answer: {question.options[answers[index]]}
-                    </p>
-                    {answers[index] !== question.correctAnswer && (
-                      <p className="text-sm text-emerald-600">
-                        Correct answer: {question.options[question.correctAnswer]}
-                      </p>
-                    )}
-                  </div>
+          {/* Sample Questions Preview */}
+          <div className="space-y-3">
+            <h4 className="font-medium text-gray-900">Sample Questions:</h4>
+            {quiz.questions.slice(0, 3).map((question, index) => (
+              <div key={index} className="bg-white rounded-lg p-4">
+                <p className="font-medium text-gray-900 mb-2">
+                  {index + 1}. {question.question}
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {question.options.map((option, optionIndex) => (
+                    <div key={optionIndex} className={`text-sm p-2 rounded ${
+                      optionIndex === question.correctAnswer 
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' 
+                        : 'bg-gray-50 text-gray-600'
+                    }`}>
+                      {String.fromCharCode(65 + optionIndex)}. {option}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="flex justify-center space-x-4">
-            <Button onClick={resetQuiz}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Retake Quiz
-            </Button>
-            <Button variant="secondary">
-              <Download className="w-4 h-4 mr-2" />
-              Export Results
-            </Button>
-          </div>
-        </Card>
-      </div>
-    );
-  }
-
-  const currentQ = quiz.questions[currentQuestion];
-
-  return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-gray-900">{quiz.title}</h1>
-          <span className="text-sm text-gray-600">
-            {currentQuestion + 1} of {quiz.questions.length}
-          </span>
-        </div>
-        
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <motion.div 
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 h-2 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${((currentQuestion + 1) / quiz.questions.length) * 100}%` }}
-            transition={{ duration: 0.5 }}
-          />
-        </div>
-      </div>
-
-      <Card className="p-8">
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">
-            {currentQ.question}
-          </h2>
-          
-          <div className="space-y-3">
-            {currentQ.options.map((option, index) => (
-              <motion.button
-                key={index}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                onClick={() => handleAnswerSelect(index)}
-                className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                  selectedAnswer === index
-                    ? 'border-indigo-500 bg-indigo-50'
-                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center space-x-3">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                    selectedAnswer === index
-                      ? 'border-indigo-500 bg-indigo-500'
-                      : 'border-gray-300'
-                  }`}>
-                    {selectedAnswer === index && (
-                      <div className="w-2 h-2 bg-white rounded-full" />
-                    )}
-                  </div>
-                  <span className="font-medium text-gray-900">{option}</span>
-                </div>
-              </motion.button>
-            ))}
+            {quiz.questions.length > 3 && (
+              <p className="text-sm text-gray-600 text-center">
+                +{quiz.questions.length - 3} more questions
+              </p>
+            )}
           </div>
         </div>
 
-        <div className="flex justify-between items-center">
-          <Button variant="ghost" disabled={currentQuestion === 0}>
-            Previous
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button onClick={handleSaveQuiz} variant="secondary" size="lg" className="group">
+            <Save className="w-5 h-5 mr-2" />
+            Save Quiz
           </Button>
           
-          <Button 
-            onClick={handleNextQuestion}
-            disabled={selectedAnswer === null}
-            className="group"
-          >
-            {currentQuestion === quiz.questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+          <Button onClick={handleTakeQuiz} size="lg" className="group">
+            <Play className="w-5 h-5 mr-2" />
+            Take Quiz Now
             <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
+        </div>
+
+        {/* Additional Options */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+              <Download className="w-4 h-4" />
+              <span>Export as PDF</span>
+            </button>
+            <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+              <RefreshCw className="w-4 h-4" />
+              <span>Regenerate Quiz</span>
+            </button>
+            <button 
+              onClick={() => navigate('/quiz-history')}
+              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <FileText className="w-4 h-4" />
+              <span>View All Quizzes</span>
+            </button>
+          </div>
         </div>
       </Card>
     </div>

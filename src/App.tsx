@@ -93,6 +93,11 @@ function AppContent() {
             <QuizAttempts />
           </ProtectedRoute>
         } />
+        <Route path="/quiz-analytics" element={
+          <ProtectedRoute>
+            <QuizHistory />
+          </ProtectedRoute>
+        } />
         <Route path="/chat" element={
           <ProtectedRoute>
             <Chat />
