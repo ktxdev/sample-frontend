@@ -34,11 +34,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/login" replace />;
   }
   
-  return (
-    <SubscriptionProvider>
-      <Layout>{children}</Layout>
-    </SubscriptionProvider>
-  );
+  return <Layout>{children}</Layout>;
 }
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
@@ -139,7 +135,9 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <SubscriptionProvider>
+        <AppContent />
+      </SubscriptionProvider>
     </AuthProvider>
   );
 }
