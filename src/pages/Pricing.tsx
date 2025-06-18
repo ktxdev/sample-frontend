@@ -5,15 +5,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { PlanCard } from '../components/subscription/PlanCard';
+import { CheckoutModal } from '../components/payment/CheckoutModal';
 import { useSubscription } from '../hooks/useSubscription';
 import { useAuth } from '../hooks/useAuth';
+import { usePayment } from '../hooks/usePayment';
+import { Plan } from '../types';
 
 export function Pricing() {
-  const { plans, currentPlan, upgradeToPlan } = useSubscription();
+  const { plans, currentPlan } = useSubscription();
   const { user } = useAuth();
+  const { processPayment } = usePayment();
   const navigate = useNavigate();
   const [isAnnual, setIsAnnual] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
 
   const handleSelectPlan = async (planId: string) => {
     if (!user) {
@@ -23,16 +29,23 @@ export function Pricing() {
 
     if (planId === 'free' || planId === currentPlan.id) return;
 
-    setLoadingPlan(planId);
-    try {
-      await upgradeToPlan(planId);
-      // Redirect to success page or show success message
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Failed to upgrade plan:', error);
-    } finally {
-      setLoadingPlan(null);
-    }
+    const plan = plans.find(p => p.id === planId);
+    if (!plan) return;
+
+    setSelectedPlan(plan);
+    setShowCheckout(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    setShowCheckout(false);
+    setSelectedPlan(null);
+    setLoadingPlan(null);
+    navigate('/dashboard');
+  };
+
+  const handlePaymentError = (error: string) => {
+    console.error('Payment error:', error);
+    setLoadingPlan(null);
   };
 
   const benefits = [
@@ -192,7 +205,7 @@ export function Pricing() {
               },
               {
                 question: 'What payment methods do you accept?',
-                answer: 'We accept all major credit cards (Visa, MasterCard, American Express) and PayPal. All payments are processed securely through Stripe.'
+                answer: 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, and Google Pay. All payments are processed securely.'
               },
               {
                 question: 'Is there a free trial?',
@@ -240,6 +253,21 @@ export function Pricing() {
           </Card>
         </motion.div>
       </div>
+
+      {/* Checkout Modal */}
+      {showCheckout && selectedPlan && (
+        <CheckoutModal
+          isOpen={showCheckout}
+          onClose={() => {
+            setShowCheckout(false);
+            setSelectedPlan(null);
+          }}
+          plan={selectedPlan}
+          onSuccess={handlePaymentSuccess}
+          onError={handlePaymentError}
+          annual={isAnnual}
+        />
+      )}
     </div>
   );
 }

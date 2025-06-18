@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './hooks/useAuth';
 import { SubscriptionProvider } from './hooks/useSubscription';
+import { PaymentProvider } from './hooks/usePayment';
 import { Layout } from './components/layout/Layout';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
@@ -136,7 +137,9 @@ function App() {
   return (
     <AuthProvider>
       <SubscriptionProvider>
-        <AppContent />
+        <PaymentProvider>
+          <AppContent />
+        </PaymentProvider>
       </SubscriptionProvider>
     </AuthProvider>
   );
