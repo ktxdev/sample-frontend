@@ -34,7 +34,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         id: '1',
         email,
         name: email.split('@')[0],
-        provider: 'email'
+        provider: 'email',
+        subscription: {
+          plan: 'free',
+          status: 'active',
+          currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          cancelAtPeriodEnd: false
+        }
       };
       setUser(mockUser);
       localStorage.setItem('user', JSON.stringify(mockUser));
@@ -55,7 +61,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: 'user@gmail.com',
         name: 'John Doe',
         avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&dpr=2',
-        provider: 'google'
+        provider: 'google',
+        subscription: {
+          plan: 'free',
+          status: 'active',
+          currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          cancelAtPeriodEnd: false
+        }
       };
       setUser(mockUser);
       localStorage.setItem('user', JSON.stringify(mockUser));
@@ -75,7 +87,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         id: '1',
         email,
         name,
-        provider: 'email'
+        provider: 'email',
+        subscription: {
+          plan: 'free',
+          status: 'active',
+          currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          cancelAtPeriodEnd: false
+        }
       };
       setUser(mockUser);
       localStorage.setItem('user', JSON.stringify(mockUser));

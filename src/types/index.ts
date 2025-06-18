@@ -4,6 +4,36 @@ export interface User {
   name: string;
   avatar?: string;
   provider: 'google' | 'email';
+  subscription: Subscription;
+}
+
+export interface Subscription {
+  plan: 'free' | 'pro' | 'pro_plus';
+  status: 'active' | 'canceled' | 'past_due' | 'trialing';
+  currentPeriodEnd: Date;
+  cancelAtPeriodEnd: boolean;
+  trialEnd?: Date;
+}
+
+export interface Plan {
+  id: 'free' | 'pro' | 'pro_plus';
+  name: string;
+  price: number;
+  interval: 'month' | 'year';
+  features: string[];
+  limits: {
+    quizzesPerMonth: number | 'unlimited';
+    documentsStorage: string;
+    aiQuestions: number | 'unlimited';
+    flashcards: number | 'unlimited';
+    mindMaps: number | 'unlimited';
+    exportFormats: string[];
+    prioritySupport: boolean;
+    advancedAnalytics: boolean;
+    teamCollaboration: boolean;
+  };
+  popular?: boolean;
+  badge?: string;
 }
 
 export interface Quiz {

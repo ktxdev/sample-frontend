@@ -1,10 +1,13 @@
 import React from 'react';
-import { LogOut, User, Bell, Search } from 'lucide-react';
+import { LogOut, User, Bell, Search, Crown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { useSubscription } from '../../hooks/useSubscription';
 import { Button } from '../ui/Button';
 
 export function Header() {
   const { user, logout } = useAuth();
+  const { currentPlan } = useSubscription();
 
   return (
     <header className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50 sticky top-0 z-50">
@@ -33,6 +36,26 @@ export function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Plan Badge */}
+            {currentPlan.id !== 'free' && (
+              <Link to="/subscription">
+                <div className="flex items-center space-x-2 px-3 py-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full text-sm font-medium hover:from-indigo-600 hover:to-purple-700 transition-all">
+                  <Crown className="w-4 h-4" />
+                  <span>{currentPlan.name}</span>
+                </div>
+              </Link>
+            )}
+
+            {/* Upgrade Button for Free Users */}
+            {currentPlan.id === 'free' && (
+              <Link to="/pricing">
+                <Button size="sm" className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
+                  <Crown className="w-4 h-4 mr-2" />
+                  Upgrade
+                </Button>
+              </Link>
+            )}
+
             <button className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
               <Bell className="w-5 h-5" />
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>

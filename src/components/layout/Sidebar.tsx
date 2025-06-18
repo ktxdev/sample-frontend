@@ -10,7 +10,8 @@ import {
   Settings,
   HelpCircle,
   History,
-  BarChart3
+  BarChart3,
+  Crown
 } from 'lucide-react';
 
 const navigation = [
@@ -24,6 +25,7 @@ const navigation = [
 ];
 
 const secondaryNavigation = [
+  { name: 'Subscription', href: '/subscription', icon: Crown },
   { name: 'Settings', href: '/settings', icon: Settings },
   { name: 'Help & Support', href: '/help', icon: HelpCircle },
 ];

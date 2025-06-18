@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './hooks/useAuth';
+import { SubscriptionProvider } from './hooks/useSubscription';
 import { Layout } from './components/layout/Layout';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
@@ -15,6 +16,8 @@ import { MindMap } from './pages/MindMap';
 import { Files } from './pages/Files';
 import { Settings } from './pages/Settings';
 import { Help } from './pages/Help';
+import { Pricing } from './pages/Pricing';
+import { Subscription } from './pages/Subscription';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -31,7 +34,11 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Navigate to="/login" replace />;
   }
   
-  return <Layout>{children}</Layout>;
+  return (
+    <SubscriptionProvider>
+      <Layout>{children}</Layout>
+    </SubscriptionProvider>
+  );
 }
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
@@ -57,6 +64,7 @@ function AppContent() {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={
           <PublicRoute>
             <LoginForm />
@@ -106,6 +114,11 @@ function AppContent() {
         <Route path="/files" element={
           <ProtectedRoute>
             <Files />
+          </ProtectedRoute>
+        } />
+        <Route path="/subscription" element={
+          <ProtectedRoute>
+            <Subscription />
           </ProtectedRoute>
         } />
         <Route path="/settings" element={
