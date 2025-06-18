@@ -138,9 +138,9 @@ export function Subscription() {
               </p>
             </div>
           </div>
-          <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(user?.subscription.status || 'active')}`}>
-            {getStatusIcon(user?.subscription.status || 'active')}
-            <span className="ml-1 capitalize">{user?.subscription.status || 'active'}</span>
+          <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(user?.subscription?.status || 'active')}`}>
+            {getStatusIcon(user?.subscription?.status || 'active')}
+            <span className="ml-1 capitalize">{user?.subscription?.status || 'active'}</span>
           </div>
         </div>
 
@@ -168,7 +168,7 @@ export function Subscription() {
               <div className="flex items-center space-x-3 text-sm">
                 <Calendar className="w-4 h-4 text-gray-400" />
                 <span className="text-gray-600">
-                  {user?.subscription.status === 'canceled' ? 'Expires' : 'Renews'} on {formatDate(user?.subscription.currentPeriodEnd || new Date())}
+                  {user?.subscription?.status === 'canceled' ? 'Expires' : 'Renews'} on {formatDate(user?.subscription?.currentPeriodEnd || new Date())}
                 </span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
@@ -181,7 +181,7 @@ export function Subscription() {
           </div>
         </div>
 
-        {user?.subscription.cancelAtPeriodEnd && (
+        {user?.subscription?.cancelAtPeriodEnd && (
           <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <div className="flex items-center space-x-2">
               <AlertCircle className="w-5 h-5 text-yellow-600" />
@@ -275,14 +275,14 @@ export function Subscription() {
       </Card>
 
       {/* Danger Zone */}
-      {currentPlan.id !== 'free' && !user?.subscription.cancelAtPeriodEnd && (
+      {currentPlan.id !== 'free' && !user?.subscription?.cancelAtPeriodEnd && (
         <Card className="p-6 border-red-200">
           <h2 className="text-xl font-semibold text-red-600 mb-4">Danger Zone</h2>
           <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
             <div>
               <h3 className="font-medium text-red-900">Cancel Subscription</h3>
               <p className="text-sm text-red-700">
-                You'll continue to have access until {formatDate(user?.subscription.currentPeriodEnd || new Date())}
+                You'll continue to have access until {formatDate(user?.subscription?.currentPeriodEnd || new Date())}
               </p>
             </div>
             <Button 

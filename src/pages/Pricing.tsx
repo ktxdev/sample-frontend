@@ -59,9 +59,9 @@ export function Pricing() {
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link to="/dashboard" className="flex items-center space-x-2">
+            <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-2">
               <ArrowLeft className="w-5 h-5 text-gray-600" />
-              <span className="text-gray-600">Back to Dashboard</span>
+              <span className="text-gray-600">Back to {user ? "Dashboard" : "Home"}</span>
             </Link>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -138,7 +138,7 @@ export function Pricing() {
             >
               <PlanCard
                 plan={plan}
-                isCurrentPlan={user?.subscription.plan === plan.id}
+                isCurrentPlan={user?.subscription?.plan === plan.id}
                 onSelectPlan={handleSelectPlan}
                 isLoading={loadingPlan === plan.id}
                 annual={isAnnual}
