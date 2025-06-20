@@ -26,7 +26,7 @@ export function Input({
   return (
     <div className={`space-y-1 ${className}`}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
@@ -38,11 +38,11 @@ export function Input({
         placeholder={placeholder}
         disabled={disabled}
         required={required}
-        className={`w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors ${
-          error ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : ''
-        } ${disabled ? 'bg-gray-50 cursor-not-allowed' : ''}`}
+        className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 ${
+          error ? 'border-red-300 dark:border-red-600 focus:ring-red-500 focus:border-red-500' : ''
+        } ${disabled ? 'bg-gray-50 dark:bg-gray-800 cursor-not-allowed' : ''}`}
       />
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }

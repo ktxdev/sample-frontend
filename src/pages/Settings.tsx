@@ -27,6 +27,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { useAuth } from '../hooks/useAuth';
+import { useTheme } from '../hooks/useTheme';
 
 const settingsSections = [
   {
@@ -63,6 +64,7 @@ const settingsSections = [
 
 export function Settings() {
   const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [activeSection, setActiveSection] = useState('profile');
   const [settings, setSettings] = useState({
     profile: {
@@ -87,7 +89,7 @@ export function Settings() {
       activityLogging: true
     },
     appearance: {
-      theme: 'light',
+      theme: theme,
       colorScheme: 'indigo',
       fontSize: 'medium',
       animations: true,
@@ -108,6 +110,11 @@ export function Settings() {
         [key]: value
       }
     }));
+
+    // Update theme immediately when changed
+    if (section === 'appearance' && key === 'theme') {
+      setTheme(value);
+    }
   };
 
   const renderProfileSettings = () => (
@@ -121,8 +128,8 @@ export function Settings() {
               className="w-20 h-20 rounded-full object-cover"
             />
           ) : (
-            <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-gray-600" />
+            <div className="w-20 h-20 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+              <User className="w-8 h-8 text-gray-600 dark:text-gray-300" />
             </div>
           )}
           <button className="absolute bottom-0 right-0 w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xs">
@@ -130,8 +137,8 @@ export function Settings() {
           </button>
         </div>
         <div>
-          <h3 className="text-lg font-medium text-gray-900">Profile Picture</h3>
-          <p className="text-sm text-gray-600">Update your profile photo</p>
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Profile Picture</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Update your profile photo</p>
           <div className="mt-2 space-x-2">
             <Button size="sm" variant="secondary">Upload New</Button>
             <Button size="sm" variant="ghost">Remove</Button>
@@ -154,23 +161,23 @@ export function Settings() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bio</label>
         <textarea
           value={settings.profile.bio}
           onChange={(e) => updateSetting('profile', 'bio', e.target.value)}
           placeholder="Tell us about yourself..."
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           rows={3}
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Timezone</label>
           <select
             value={settings.profile.timezone}
             onChange={(e) => updateSetting('profile', 'timezone', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           >
             <option value="UTC-8">Pacific Time (UTC-8)</option>
             <option value="UTC-5">Eastern Time (UTC-5)</option>
@@ -179,11 +186,11 @@ export function Settings() {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
           <select
             value={settings.profile.language}
             onChange={(e) => updateSetting('profile', 'language', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           >
             <option value="en">English</option>
             <option value="es">Spanish</option>
@@ -198,7 +205,7 @@ export function Settings() {
   const renderNotificationSettings = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Email Notifications</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Email Notifications</h3>
         <div className="space-y-4">
           {[
             { key: 'emailNotifications', label: 'Email notifications', description: 'Receive notifications via email' },
@@ -207,10 +214,10 @@ export function Settings() {
             { key: 'weeklyReports', label: 'Weekly progress reports', description: 'Weekly summary of your learning progress' },
             { key: 'marketingEmails', label: 'Marketing emails', description: 'Product updates and promotional content' }
           ].map(item => (
-            <div key={item.key} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div key={item.key} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
               <div>
-                <h4 className="font-medium text-gray-900">{item.label}</h4>
-                <p className="text-sm text-gray-600">{item.description}</p>
+                <h4 className="font-medium text-gray-900 dark:text-gray-100">{item.label}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
@@ -219,7 +226,7 @@ export function Settings() {
                   onChange={(e) => updateSetting('notifications', item.key, e.target.checked)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
               </label>
             </div>
           ))}
@@ -227,12 +234,12 @@ export function Settings() {
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Push Notifications</h3>
-        <div className="p-4 bg-gray-50 rounded-lg">
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Push Notifications</h3>
+        <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-medium text-gray-900">Browser notifications</h4>
-              <p className="text-sm text-gray-600">Receive push notifications in your browser</p>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100">Browser notifications</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Receive push notifications in your browser</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -241,7 +248,7 @@ export function Settings() {
                 onChange={(e) => updateSetting('notifications', 'pushNotifications', e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
         </div>
@@ -252,28 +259,28 @@ export function Settings() {
   const renderSecuritySettings = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Account Security</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Account Security</h3>
         <div className="space-y-4">
-          <div className="p-4 border border-gray-200 rounded-lg">
+          <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <Key className="w-5 h-5 text-gray-600" />
+                <Key className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <div>
-                  <h4 className="font-medium text-gray-900">Password</h4>
-                  <p className="text-sm text-gray-600">Last changed 3 months ago</p>
+                  <h4 className="font-medium text-gray-900 dark:text-gray-100">Password</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Last changed 3 months ago</p>
                 </div>
               </div>
               <Button variant="secondary" size="sm">Change Password</Button>
             </div>
           </div>
 
-          <div className="p-4 border border-gray-200 rounded-lg">
+          <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <Smartphone className="w-5 h-5 text-gray-600" />
+                <Smartphone className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 <div>
-                  <h4 className="font-medium text-gray-900">Two-Factor Authentication</h4>
-                  <p className="text-sm text-gray-600">
+                  <h4 className="font-medium text-gray-900 dark:text-gray-100">Two-Factor Authentication</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {settings.security.twoFactorEnabled ? 'Enabled' : 'Add an extra layer of security'}
                   </p>
                 </div>
@@ -291,12 +298,12 @@ export function Settings() {
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Privacy Settings</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Privacy Settings</h3>
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-900">Data encryption</h4>
-              <p className="text-sm text-gray-600">Encrypt your data for enhanced security</p>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100">Data encryption</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Encrypt your data for enhanced security</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -305,14 +312,14 @@ export function Settings() {
                 onChange={(e) => updateSetting('security', 'dataEncryption', e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-900">Activity logging</h4>
-              <p className="text-sm text-gray-600">Keep a log of your account activity</p>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100">Activity logging</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Keep a log of your account activity</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -321,20 +328,20 @@ export function Settings() {
                 onChange={(e) => updateSetting('security', 'activityLogging', e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
         </div>
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Session Management</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Session Management</h3>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Session timeout</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Session timeout</label>
           <select
             value={settings.security.sessionTimeout}
             onChange={(e) => updateSetting('security', 'sessionTimeout', e.target.value)}
-            className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           >
             <option value="15">15 minutes</option>
             <option value="30">30 minutes</option>
@@ -350,31 +357,31 @@ export function Settings() {
   const renderAppearanceSettings = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Theme</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Theme</h3>
         <div className="grid grid-cols-3 gap-4">
           {[
             { value: 'light', label: 'Light', icon: Sun },
             { value: 'dark', label: 'Dark', icon: Moon },
             { value: 'system', label: 'System', icon: Monitor }
-          ].map(theme => (
+          ].map(themeOption => (
             <button
-              key={theme.value}
-              onClick={() => updateSetting('appearance', 'theme', theme.value)}
+              key={themeOption.value}
+              onClick={() => updateSetting('appearance', 'theme', themeOption.value)}
               className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-all ${
-                settings.appearance.theme === theme.value
-                  ? 'border-indigo-500 bg-indigo-50'
-                  : 'border-gray-200 hover:border-gray-300'
+                settings.appearance.theme === themeOption.value
+                  ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/50'
+                  : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
               }`}
             >
-              <theme.icon className="w-6 h-6 text-gray-600" />
-              <span className="text-sm font-medium">{theme.label}</span>
+              <themeOption.icon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{themeOption.label}</span>
             </button>
           ))}
         </div>
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Color Scheme</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Color Scheme</h3>
         <div className="grid grid-cols-4 gap-3">
           {[
             { value: 'indigo', color: 'bg-indigo-600' },
@@ -387,8 +394,8 @@ export function Settings() {
               onClick={() => updateSetting('appearance', 'colorScheme', scheme.value)}
               className={`w-12 h-12 rounded-lg ${scheme.color} border-4 transition-all ${
                 settings.appearance.colorScheme === scheme.value
-                  ? 'border-gray-900'
-                  : 'border-gray-200'
+                  ? 'border-gray-900 dark:border-gray-100'
+                  : 'border-gray-200 dark:border-gray-600'
               }`}
             />
           ))}
@@ -396,14 +403,14 @@ export function Settings() {
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Display Options</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Display Options</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Font Size</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Font Size</label>
             <select
               value={settings.appearance.fontSize}
               onChange={(e) => updateSetting('appearance', 'fontSize', e.target.value)}
-              className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="small">Small</option>
               <option value="medium">Medium</option>
@@ -411,10 +418,10 @@ export function Settings() {
             </select>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-900">Animations</h4>
-              <p className="text-sm text-gray-600">Enable smooth animations and transitions</p>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100">Animations</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Enable smooth animations and transitions</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -423,14 +430,14 @@ export function Settings() {
                 onChange={(e) => updateSetting('appearance', 'animations', e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-900">Compact mode</h4>
-              <p className="text-sm text-gray-600">Use a more compact layout to fit more content</p>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100">Compact mode</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Use a more compact layout to fit more content</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -439,7 +446,7 @@ export function Settings() {
                 onChange={(e) => updateSetting('appearance', 'compactMode', e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
         </div>
@@ -450,13 +457,13 @@ export function Settings() {
   const renderDataSettings = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Data Management</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Data Management</h3>
         <div className="space-y-4">
-          <div className="p-4 border border-gray-200 rounded-lg">
+          <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-gray-900">Export your data</h4>
-                <p className="text-sm text-gray-600">Download a copy of all your data</p>
+                <h4 className="font-medium text-gray-900 dark:text-gray-100">Export your data</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Download a copy of all your data</p>
               </div>
               <Button variant="secondary" size="sm">
                 <Download className="w-4 h-4 mr-2" />
@@ -465,10 +472,10 @@ export function Settings() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-900">Automatic backups</h4>
-              <p className="text-sm text-gray-600">Automatically backup your data weekly</p>
+              <h4 className="font-medium text-gray-900 dark:text-gray-100">Automatic backups</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Automatically backup your data weekly</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -477,20 +484,20 @@ export function Settings() {
                 onChange={(e) => updateSetting('data', 'autoBackup', e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
         </div>
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Data Retention</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Data Retention</h3>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Keep data for</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Keep data for</label>
           <select
             value={settings.data.retentionPeriod}
             onChange={(e) => updateSetting('data', 'retentionPeriod', e.target.value)}
-            className="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           >
             <option value="6months">6 months</option>
             <option value="1year">1 year</option>
@@ -501,11 +508,11 @@ export function Settings() {
       </div>
 
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Analytics</h3>
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Analytics</h3>
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
           <div>
-            <h4 className="font-medium text-gray-900">Usage analytics</h4>
-            <p className="text-sm text-gray-600">Help improve QuizCraft by sharing anonymous usage data</p>
+            <h4 className="font-medium text-gray-900 dark:text-gray-100">Usage analytics</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Help improve QuizCraft by sharing anonymous usage data</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
@@ -514,18 +521,18 @@ export function Settings() {
               onChange={(e) => updateSetting('data', 'analyticsOptIn', e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            <div className="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
           </label>
         </div>
       </div>
 
-      <div className="border-t border-gray-200 pt-6">
-        <h3 className="text-lg font-medium text-red-600 mb-4">Danger Zone</h3>
-        <div className="p-4 border border-red-200 rounded-lg bg-red-50">
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+        <h3 className="text-lg font-medium text-red-600 dark:text-red-400 mb-4">Danger Zone</h3>
+        <div className="p-4 border border-red-200 dark:border-red-800 rounded-lg bg-red-50 dark:bg-red-900/20">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-medium text-red-900">Delete account</h4>
-              <p className="text-sm text-red-700">Permanently delete your account and all data</p>
+              <h4 className="font-medium text-red-900 dark:text-red-100">Delete account</h4>
+              <p className="text-sm text-red-700 dark:text-red-300">Permanently delete your account and all data</p>
             </div>
             <Button variant="danger" size="sm">
               <Trash2 className="w-4 h-4 mr-2" />
@@ -557,8 +564,8 @@ export function Settings() {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
-        <p className="text-gray-600">Manage your account preferences and application settings</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Settings</h1>
+        <p className="text-gray-600 dark:text-gray-400">Manage your account preferences and application settings</p>
       </div>
 
       <div className="grid lg:grid-cols-4 gap-6">
@@ -572,15 +579,15 @@ export function Settings() {
                   onClick={() => setActiveSection(section.id)}
                   className={`w-full text-left p-3 rounded-lg transition-all ${
                     activeSection === section.id
-                      ? 'bg-indigo-50 text-indigo-700 border-l-4 border-indigo-500'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 border-l-4 border-indigo-500'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <section.icon className="w-5 h-5" />
                     <div>
                       <div className="font-medium">{section.title}</div>
-                      <div className="text-xs text-gray-500">{section.description}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">{section.description}</div>
                     </div>
                   </div>
                 </button>
@@ -593,10 +600,10 @@ export function Settings() {
         <div className="lg:col-span-3">
           <Card className="p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 {settingsSections.find(s => s.id === activeSection)?.title}
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 {settingsSections.find(s => s.id === activeSection)?.description}
               </p>
             </div>
@@ -610,7 +617,7 @@ export function Settings() {
               {renderContent()}
             </motion.div>
 
-            <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-3">
+            <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
               <Button variant="secondary">Cancel</Button>
               <Button>Save Changes</Button>
             </div>
