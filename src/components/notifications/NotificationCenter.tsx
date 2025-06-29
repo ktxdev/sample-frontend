@@ -152,7 +152,7 @@ export function NotificationCenter({
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className="w-full max-w-sm mt-16"
       >
-        <Card className="shadow-2xl border-0 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
             <div className="flex items-center justify-between">
@@ -204,7 +204,7 @@ export function NotificationCenter({
 
           {/* Quick Actions */}
           {notifications.length > 0 && (
-            <div className="px-6 py-3 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
+            <div className="px-6 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
                 <div className="flex space-x-2">
                   {unreadCount > 0 && (
@@ -223,13 +223,13 @@ export function NotificationCenter({
           )}
 
           {/* Notifications List */}
-          <div className="max-h-96 overflow-y-auto">
+          <div className="max-h-96 overflow-y-auto bg-white dark:bg-gray-800">
             <AnimatePresence mode="popLayout">
               {filteredNotifications.length === 0 ? (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="p-8 text-center"
+                  className="p-8 text-center bg-white dark:bg-gray-800"
                 >
                   <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Bell className="w-8 h-8 text-gray-400 dark:text-gray-500" />
@@ -257,7 +257,7 @@ export function NotificationCenter({
                       className={`relative border-l-4 ${style.border} ${
                         !notification.read 
                           ? 'bg-white dark:bg-gray-800' 
-                          : 'bg-gray-50 dark:bg-gray-800/50'
+                          : 'bg-gray-50 dark:bg-gray-800/70'
                       } hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group`}
                     >
                       <div className="p-4">
@@ -332,13 +332,13 @@ export function NotificationCenter({
           </div>
 
           {/* Footer */}
-          <div className="p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
+          <div className="p-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
             <Button variant="ghost" size="sm" className="w-full justify-center">
               <Settings className="w-4 h-4 mr-2" />
               Notification Settings
             </Button>
           </div>
-        </Card>
+        </div>
       </motion.div>
     </div>
   );
