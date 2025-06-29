@@ -21,7 +21,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsedUser = JSON.parse(savedUser);
+        // Convert date strings back to Date objects
+        if (parsedUser.subscription?.currentPeriodEnd) {
+          parsedUser.subscription.currentPeriodEnd = new Date(parsedUser.subscription.currentPeriodEnd);
+        }
+        if (parsedUser.subscription?.trialEnd) {
+          parsedUser.subscription.trialEnd = new Date(parsedUser.subscription.trialEnd);
+        }
+        setUser(parsedUser);
       } catch (error) {
         console.error('Error parsing saved user:', error);
         localStorage.removeItem('user');
