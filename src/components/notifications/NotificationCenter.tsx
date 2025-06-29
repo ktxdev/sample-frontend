@@ -1,21 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Bell, 
-  X, 
-  Check, 
-  Info, 
-  AlertTriangle, 
-  AlertCircle,
-  FileText,
-  MessageCircle,
-  Trophy,
-  Clock,
-  Settings,
-  Trash2,
-  MarkAsUnread,
-  Filter
-} from 'lucide-react';
+import { Bell, X, Check, Info, AlertTriangle, AlertCircle, FileText, MessageCircle, Trophy, Clock, Settings, Trash2, AreaChart as MarkAsUnread, Filter } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 
