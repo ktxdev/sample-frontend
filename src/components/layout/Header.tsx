@@ -1,10 +1,11 @@
 import React from 'react';
-import { LogOut, User, Bell, Search, Crown, Sun, Moon, Monitor } from 'lucide-react';
+import { LogOut, User, Search, Crown, Sun, Moon, Monitor } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useSubscription } from '../../hooks/useSubscription';
 import { useTheme } from '../../hooks/useTheme';
 import { Button } from '../ui/Button';
+import { NotificationBell } from '../notifications/NotificationBell';
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -87,10 +88,8 @@ export function Header() {
               {getThemeIcon()}
             </button>
 
-            <button className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+            {/* Notifications */}
+            <NotificationBell />
             
             <div className="flex items-center space-x-3">
               <div className="flex items-center space-x-2">

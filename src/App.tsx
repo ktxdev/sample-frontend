@@ -4,9 +4,12 @@ import { AuthProvider, useAuth } from './hooks/useAuth';
 import { SubscriptionProvider } from './hooks/useSubscription';
 import { PaymentProvider } from './hooks/usePayment';
 import { ThemeProvider } from './hooks/useTheme';
+import { NotificationProvider } from './hooks/useNotifications';
+import { ToastProvider, useToast } from './hooks/useToast';
 import { Layout } from './components/layout/Layout';
 import { LoginForm } from './components/auth/LoginForm';
 import { RegisterForm } from './components/auth/RegisterForm';
+import { ToastContainer } from './components/notifications/Toast';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
 import { Quiz } from './pages/Quiz';
@@ -59,89 +62,95 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 }
 
 function AppContent() {
+  const { toasts, removeToast } = useToast();
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/login" element={
-          <PublicRoute>
-            <LoginForm />
-          </PublicRoute>
-        } />
-        <Route path="/register" element={
-          <PublicRoute>
-            <RegisterForm />
-          </PublicRoute>
-        } />
-        
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/quiz" element={
-          <ProtectedRoute>
-            <Quiz />
-          </ProtectedRoute>
-        } />
-        <Route path="/quiz-history" element={
-          <ProtectedRoute>
-            <QuizHistory />
-          </ProtectedRoute>
-        } />
-        <Route path="/quiz-analytics" element={
-          <ProtectedRoute>
-            <QuizHistory />
-          </ProtectedRoute>
-        } />
-        <Route path="/quiz-attempts/:quizId" element={
-          <ProtectedRoute>
-            <QuizAttempts />
-          </ProtectedRoute>
-        } />
-        <Route path="/notes" element={
-          <ProtectedRoute>
-            <Notes />
-          </ProtectedRoute>
-        } />
-        <Route path="/chat" element={
-          <ProtectedRoute>
-            <Chat />
-          </ProtectedRoute>
-        } />
-        <Route path="/flashcards" element={
-          <ProtectedRoute>
-            <Flashcards />
-          </ProtectedRoute>
-        } />
-        <Route path="/mindmap" element={
-          <ProtectedRoute>
-            <MindMap />
-          </ProtectedRoute>
-        } />
-        <Route path="/files" element={
-          <ProtectedRoute>
-            <Files />
-          </ProtectedRoute>
-        } />
-        <Route path="/subscription" element={
-          <ProtectedRoute>
-            <Subscription />
-          </ProtectedRoute>
-        } />
-        <Route path="/settings" element={
-          <ProtectedRoute>
-            <Settings />
-          </ProtectedRoute>
-        } />
-        <Route path="/help" element={
-          <ProtectedRoute>
-            <Help />
-          </ProtectedRoute>
-        } />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/login" element={
+            <PublicRoute>
+              <LoginForm />
+            </PublicRoute>
+          } />
+          <Route path="/register" element={
+            <PublicRoute>
+              <RegisterForm />
+            </PublicRoute>
+          } />
+          
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/quiz" element={
+            <ProtectedRoute>
+              <Quiz />
+            </ProtectedRoute>
+          } />
+          <Route path="/quiz-history" element={
+            <ProtectedRoute>
+              <QuizHistory />
+            </ProtectedRoute>
+          } />
+          <Route path="/quiz-analytics" element={
+            <ProtectedRoute>
+              <QuizHistory />
+            </ProtectedRoute>
+          } />
+          <Route path="/quiz-attempts/:quizId" element={
+            <ProtectedRoute>
+              <QuizAttempts />
+            </ProtectedRoute>
+          } />
+          <Route path="/notes" element={
+            <ProtectedRoute>
+              <Notes />
+            </ProtectedRoute>
+          } />
+          <Route path="/chat" element={
+            <ProtectedRoute>
+              <Chat />
+            </ProtectedRoute>
+          } />
+          <Route path="/flashcards" element={
+            <ProtectedRoute>
+              <Flashcards />
+            </ProtectedRoute>
+          } />
+          <Route path="/mindmap" element={
+            <ProtectedRoute>
+              <MindMap />
+            </ProtectedRoute>
+          } />
+          <Route path="/files" element={
+            <ProtectedRoute>
+              <Files />
+            </ProtectedRoute>
+          } />
+          <Route path="/subscription" element={
+            <ProtectedRoute>
+              <Subscription />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          } />
+          <Route path="/help" element={
+            <ProtectedRoute>
+              <Help />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </Router>
+      
+      <ToastContainer toasts={toasts} onClose={removeToast} />
+    </>
   );
 }
 
@@ -151,7 +160,11 @@ function App() {
       <AuthProvider>
         <SubscriptionProvider>
           <PaymentProvider>
-            <AppContent />
+            <NotificationProvider>
+              <ToastProvider>
+                <AppContent />
+              </ToastProvider>
+            </NotificationProvider>
           </PaymentProvider>
         </SubscriptionProvider>
       </AuthProvider>
