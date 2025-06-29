@@ -32,7 +32,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mb-4">
@@ -41,10 +41,10 @@ export function LoginForm() {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             Welcome back
           </h2>
-          <p className="mt-2 text-gray-600">Sign in to your QuizCraft account</p>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Sign in to your QuizCraft account</p>
         </div>
 
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-gray-200/50">
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-gray-200/50 dark:border-gray-700/50">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <Input
               label="Email address"
@@ -65,7 +65,7 @@ export function LoginForm() {
             />
 
             {error && (
-              <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg">
+              <div className="text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -81,10 +81,10 @@ export function LoginForm() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
+                <div className="w-full border-t border-gray-300 dark:border-gray-600" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or continue with</span>
               </div>
             </div>
 
@@ -100,11 +100,11 @@ export function LoginForm() {
             </Button>
 
             <div className="text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Don't have an account?{' '}
                 <Link
                   to="/register"
-                  className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+                  className="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors"
                 >
                   Sign up
                 </Link>

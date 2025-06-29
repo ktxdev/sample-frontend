@@ -118,17 +118,17 @@ export function QuizHistory() {
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return 'text-emerald-600 bg-emerald-50';
-      case 'medium': return 'text-yellow-600 bg-yellow-50';
-      case 'hard': return 'text-red-600 bg-red-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case 'easy': return 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/50';
+      case 'medium': return 'text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/50';
+      case 'hard': return 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/50';
+      default: return 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50';
     }
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-emerald-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 80) return 'text-emerald-600 dark:text-emerald-400';
+    if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
+    return 'text-red-600 dark:text-red-400';
   };
 
   const formatDate = (date: Date) => {
@@ -151,8 +151,8 @@ export function QuizHistory() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Quiz History</h1>
-          <p className="text-gray-600">View and manage your created quizzes</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Quiz History</h1>
+          <p className="text-gray-600 dark:text-gray-400">View and manage your created quizzes</p>
         </div>
         <Link to="/quiz">
           <Button>
@@ -167,37 +167,37 @@ export function QuizHistory() {
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Quizzes</p>
-              <p className="text-2xl font-bold text-gray-900">{totalQuizzes}</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Quizzes</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{totalQuizzes}</p>
             </div>
-            <FileText className="w-8 h-8 text-indigo-600" />
+            <FileText className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
           </div>
         </Card>
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Attempts</p>
-              <p className="text-2xl font-bold text-gray-900">{totalAttempts}</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Attempts</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{totalAttempts}</p>
             </div>
-            <Users className="w-8 h-8 text-emerald-600" />
+            <Users className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
           </div>
         </Card>
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Average Score</p>
-              <p className="text-2xl font-bold text-gray-900">{averageScore}%</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Average Score</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{averageScore}%</p>
             </div>
-            <Target className="w-8 h-8 text-orange-600" />
+            <Target className="w-8 h-8 text-orange-600 dark:text-orange-400" />
           </div>
         </Card>
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Best Score</p>
-              <p className="text-2xl font-bold text-gray-900">{bestScore}%</p>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Best Score</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{bestScore}%</p>
             </div>
-            <Award className="w-8 h-8 text-purple-600" />
+            <Award className="w-8 h-8 text-purple-600 dark:text-purple-400" />
           </div>
         </Card>
       </div>
@@ -207,13 +207,13 @@ export function QuizHistory() {
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
           <div className="flex-1 max-w-md">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search quizzes..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
           </div>
@@ -222,7 +222,7 @@ export function QuizHistory() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               {categories.map(category => (
                 <option key={category} value={category}>
@@ -234,7 +234,7 @@ export function QuizHistory() {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               {difficulties.map(difficulty => (
                 <option key={difficulty} value={difficulty}>
@@ -246,23 +246,23 @@ export function QuizHistory() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'recent' | 'popular' | 'score')}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="recent">Most Recent</option>
               <option value="popular">Most Popular</option>
               <option value="score">Highest Score</option>
             </select>
             
-            <div className="flex border border-gray-300 rounded-lg">
+            <div className="flex border border-gray-300 dark:border-gray-600 rounded-lg">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 ${viewMode === 'grid' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600'}`}
+                className={`p-2 ${viewMode === 'grid' ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400'}`}
               >
                 <BarChart3 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 ${viewMode === 'list' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600'}`}
+                className={`p-2 ${viewMode === 'list' ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400'}`}
               >
                 <FileText className="w-4 h-4" />
               </button>
@@ -284,14 +284,14 @@ export function QuizHistory() {
               <Card className="p-6 h-full">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2">
                       {quiz.title}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                       {quiz.description}
                     </p>
                   </div>
-                  <button className="text-gray-400 hover:text-gray-600">
+                  <button className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
                     <MoreVertical className="w-4 h-4" />
                   </button>
                 </div>
@@ -300,25 +300,25 @@ export function QuizHistory() {
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(quiz.difficulty)}`}>
                     {quiz.difficulty}
                   </span>
-                  <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                  <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium">
                     {quiz.category}
                   </span>
                 </div>
 
                 <div className="space-y-3 mb-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Attempts</span>
-                    <span className="font-medium">{quiz.completedCount}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Attempts</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{quiz.completedCount}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Avg Score</span>
+                    <span className="text-gray-600 dark:text-gray-400">Avg Score</span>
                     <span className={`font-medium ${getScoreColor(quiz.averageScore)}`}>
                       {quiz.averageScore}%
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Created</span>
-                    <span className="font-medium">{formatDate(quiz.createdAt)}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Created</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{formatDate(quiz.createdAt)}</span>
                   </div>
                 </div>
 
@@ -345,9 +345,9 @@ export function QuizHistory() {
                       <FileText className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">{quiz.title}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{quiz.description}</p>
-                      <div className="flex items-center space-x-4 text-xs text-gray-500">
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">{quiz.title}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{quiz.description}</p>
+                      <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
                         <span className={`px-2 py-1 rounded-full ${getDifficultyColor(quiz.difficulty)}`}>
                           {quiz.difficulty}
                         </span>
@@ -383,9 +383,9 @@ export function QuizHistory() {
 
       {sortedQuizzes.length === 0 && (
         <Card className="p-12 text-center">
-          <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No quizzes found</h3>
-          <p className="text-gray-600 mb-4">
+          <FileText className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No quizzes found</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             {searchQuery || selectedCategory !== 'all' || selectedDifficulty !== 'all'
               ? 'Try adjusting your search criteria'
               : 'Create your first quiz to get started'

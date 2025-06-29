@@ -123,10 +123,10 @@ export function Dashboard() {
       {/* Welcome Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             Welcome back! 👋
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Here's your learning progress overview
           </p>
         </div>
@@ -150,17 +150,17 @@ export function Dashboard() {
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                     {stat.label}
                   </p>
-                  <p className="text-2xl font-bold text-gray-900">
+                  <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     {stat.value}
                   </p>
-                  <p className="text-sm text-emerald-600 font-medium">
+                  <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">
                     {stat.change} from last week
                   </p>
                 </div>
-                <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
+                <div className={`p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 ${stat.color}`}>
                   <stat.icon className="w-6 h-6" />
                 </div>
               </div>
@@ -171,7 +171,7 @@ export function Dashboard() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {quickActions.map((action, index) => (
             <motion.div
@@ -185,10 +185,10 @@ export function Dashboard() {
                   <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                     <action.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {action.title}
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {action.description}
                   </p>
                 </Card>
@@ -201,19 +201,19 @@ export function Dashboard() {
       {/* Recent Activity */}
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Recent Activity</h2>
           <Card className="p-6">
             <div className="space-y-4">
               {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-                  <div className="p-2 bg-indigo-50 rounded-lg">
-                    <activity.icon className="w-5 h-5 text-indigo-600" />
+                <div key={index} className="flex items-center space-x-4 p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
+                  <div className="p-2 bg-indigo-50 dark:bg-indigo-900/50 rounded-lg">
+                    <activity.icon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">{activity.title}</p>
-                    <p className="text-sm text-gray-600">{activity.subtitle}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{activity.title}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{activity.subtitle}</p>
                   </div>
-                  <div className="text-sm text-gray-500 flex items-center">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
                     <Clock className="w-4 h-4 mr-1" />
                     {activity.time}
                   </div>
@@ -224,21 +224,21 @@ export function Dashboard() {
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Study Streak</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Study Streak</h2>
           <Card className="p-6 text-center">
             <div className="mb-4">
               <div className="w-16 h-16 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-3">
                 <span className="text-2xl">🔥</span>
               </div>
-              <p className="text-3xl font-bold text-gray-900 mb-1">7 Days</p>
-              <p className="text-sm text-gray-600">Current streak</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">7 Days</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Current streak</p>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">This week</span>
-                <span className="font-medium">5/7 days</span>
+                <span className="text-gray-600 dark:text-gray-400">This week</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">5/7 days</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div className="bg-gradient-to-r from-orange-400 to-orange-600 h-2 rounded-full" style={{ width: '71%' }}></div>
               </div>
             </div>

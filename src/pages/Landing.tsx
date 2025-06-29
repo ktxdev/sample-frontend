@@ -56,9 +56,9 @@ const benefits = [
 
 export function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50 sticky top-0 z-50">
+      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
@@ -90,7 +90,7 @@ export function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+              className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6"
             >
               Transform Your PDFs into
               <span className="block bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -102,7 +102,7 @@ export function Landing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
+              className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto"
             >
               Upload any PDF and instantly generate quizzes, chat with your documents, 
               create flashcards, and build mind maps with the power of AI.
@@ -134,10 +134,10 @@ export function Landing() {
             >
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-indigo-600 mb-1">
+                  <div className="text-2xl md:text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -146,13 +146,13 @@ export function Landing() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white/50">
+      <section className="py-20 bg-white/50 dark:bg-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               Everything You Need to Learn Smarter
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Powerful AI tools to transform how you study and retain information
             </p>
           </div>
@@ -169,10 +169,10 @@ export function Landing() {
                   <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4">
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-400">
                     {feature.description}
                   </p>
                 </Card>
@@ -187,10 +187,10 @@ export function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
                 Why Choose QuizCraft?
               </h2>
-              <p className="text-lg text-gray-600 mb-8">
+              <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
                 Join thousands of students and professionals who have revolutionized their learning experience with our AI-powered platform.
               </p>
               
@@ -198,7 +198,7 @@ export function Landing() {
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                    <span className="text-gray-700">{benefit}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -212,7 +212,7 @@ export function Landing() {
             </div>
 
             <div className="relative">
-              <div className="bg-gradient-to-r from-indigo-600/10 to-purple-600/10 rounded-2xl p-8">
+              <div className="bg-gradient-to-r from-indigo-600/10 to-purple-600/10 dark:from-indigo-600/20 dark:to-purple-600/20 rounded-2xl p-8">
                 <img
                   src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=600"
                   alt="Student learning with QuizCraft"

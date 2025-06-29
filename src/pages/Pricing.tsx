@@ -67,14 +67,14 @@ export function Pricing() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50">
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50 dark:border-gray-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to={user ? "/dashboard" : "/"} className="flex items-center space-x-2">
-              <ArrowLeft className="w-5 h-5 text-gray-600" />
-              <span className="text-gray-600">Back to {user ? "Dashboard" : "Home"}</span>
+              <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+              <span className="text-gray-600 dark:text-gray-400">Back to {user ? "Dashboard" : "Home"}</span>
             </Link>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -94,7 +94,7 @@ export function Pricing() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6"
           >
             Choose Your Perfect Plan
           </motion.h1>
@@ -102,7 +102,7 @@ export function Pricing() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
+            className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto"
           >
             Unlock the full potential of AI-powered learning with our flexible pricing plans
           </motion.p>
@@ -114,13 +114,13 @@ export function Pricing() {
             transition={{ delay: 0.2 }}
             className="flex items-center justify-center space-x-4 mb-12"
           >
-            <span className={`text-sm font-medium ${!isAnnual ? 'text-gray-900' : 'text-gray-500'}`}>
+            <span className={`text-sm font-medium ${!isAnnual ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}`}>
               Monthly
             </span>
             <button
               onClick={() => setIsAnnual(!isAnnual)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                isAnnual ? 'bg-indigo-600' : 'bg-gray-200'
+                isAnnual ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-700'
               }`}
             >
               <span
@@ -129,11 +129,11 @@ export function Pricing() {
                 }`}
               />
             </button>
-            <span className={`text-sm font-medium ${isAnnual ? 'text-gray-900' : 'text-gray-500'}`}>
+            <span className={`text-sm font-medium ${isAnnual ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'}`}>
               Annual
             </span>
             {isAnnual && (
-              <span className="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-xs font-medium">
+              <span className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 px-2 py-1 rounded-full text-xs font-medium">
                 Save 17%
               </span>
             )}
@@ -167,19 +167,19 @@ export function Pricing() {
           transition={{ delay: 0.6 }}
           className="mb-16"
         >
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12">
             Why Choose QuizCraft?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <Card key={index} className="p-6 text-center">
-                <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4 text-indigo-600">
+                <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mx-auto mb-4 text-indigo-600 dark:text-indigo-400">
                   {benefit.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   {benefit.description}
                 </p>
               </Card>
@@ -194,7 +194,7 @@ export function Pricing() {
           transition={{ delay: 0.7 }}
           className="mb-16"
         >
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12">
             Frequently Asked Questions
           </h2>
           <div className="max-w-3xl mx-auto space-y-6">
@@ -217,10 +217,10 @@ export function Pricing() {
               }
             ].map((faq, index) => (
               <Card key={index} className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   {faq.question}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   {faq.answer}
                 </p>
               </Card>
