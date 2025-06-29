@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowLeft, CreditCard, Shield, Zap } from 'lucide-react';
+import { Check, ArrowLeft, CreditCard, Shield, Zap, Sun, Moon, Monitor } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -9,17 +9,39 @@ import { CheckoutModal } from '../components/payment/CheckoutModal';
 import { useSubscription } from '../hooks/useSubscription';
 import { useAuth } from '../hooks/useAuth';
 import { usePayment } from '../hooks/usePayment';
+import { useTheme } from '../hooks/useTheme';
 import { Plan } from '../types';
 
 export function Pricing() {
   const { plans, currentPlan } = useSubscription();
   const { user } = useAuth();
   const { processPayment } = usePayment();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const [isAnnual, setIsAnnual] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light':
+        return <Sun className="w-4 h-4" />;
+      case 'dark':
+        return <Moon className="w-4 h-4" />;
+      case 'system':
+        return <Monitor className="w-4 h-4" />;
+      default:
+        return <Sun className="w-4 h-4" />;
+    }
+  };
+
+  const cycleTheme = () => {
+    const themes = ['light', 'dark', 'system'] as const;
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    setTheme(themes[nextIndex]);
+  };
 
   const handleSelectPlan = async (planId: string) => {
     if (!user) {
@@ -76,13 +98,24 @@ export function Pricing() {
               <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               <span className="text-gray-600 dark:text-gray-400">Back to {user ? "Dashboard" : "Home"}</span>
             </Link>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">Q</span>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">Q</span>
+                </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  QuizCraft
+                </span>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                QuizCraft
-              </span>
+              
+              {/* Theme Toggle */}
+              <button
+                onClick={cycleTheme}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                title={`Current theme: ${theme}. Click to cycle through themes.`}
+              >
+                {getThemeIcon()}
+              </button>
             </div>
           </div>
         </div>

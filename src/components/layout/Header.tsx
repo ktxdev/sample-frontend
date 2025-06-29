@@ -1,13 +1,35 @@
 import React from 'react';
-import { LogOut, User, Bell, Search, Crown } from 'lucide-react';
+import { LogOut, User, Bell, Search, Crown, Sun, Moon, Monitor } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useSubscription } from '../../hooks/useSubscription';
+import { useTheme } from '../../hooks/useTheme';
 import { Button } from '../ui/Button';
 
 export function Header() {
   const { user, logout } = useAuth();
   const { currentPlan } = useSubscription();
+  const { theme, setTheme } = useTheme();
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light':
+        return <Sun className="w-4 h-4" />;
+      case 'dark':
+        return <Moon className="w-4 h-4" />;
+      case 'system':
+        return <Monitor className="w-4 h-4" />;
+      default:
+        return <Sun className="w-4 h-4" />;
+    }
+  };
+
+  const cycleTheme = () => {
+    const themes = ['light', 'dark', 'system'] as const;
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    setTheme(themes[nextIndex]);
+  };
 
   return (
     <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50">
@@ -55,6 +77,15 @@ export function Header() {
                 </Button>
               </Link>
             )}
+
+            {/* Theme Toggle */}
+            <button
+              onClick={cycleTheme}
+              className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              title={`Current theme: ${theme}. Click to cycle through themes.`}
+            >
+              {getThemeIcon()}
+            </button>
 
             <button className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               <Bell className="w-5 h-5" />

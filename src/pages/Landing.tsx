@@ -10,10 +10,14 @@ import {
   Users, 
   Trophy,
   ArrowRight,
-  CheckCircle
+  CheckCircle,
+  Sun,
+  Moon,
+  Monitor
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { useTheme } from '../hooks/useTheme';
 
 const features = [
   {
@@ -55,6 +59,28 @@ const benefits = [
 ];
 
 export function Landing() {
+  const { theme, setTheme } = useTheme();
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light':
+        return <Sun className="w-4 h-4" />;
+      case 'dark':
+        return <Moon className="w-4 h-4" />;
+      case 'system':
+        return <Monitor className="w-4 h-4" />;
+      default:
+        return <Sun className="w-4 h-4" />;
+    }
+  };
+
+  const cycleTheme = () => {
+    const themes = ['light', 'dark', 'system'] as const;
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    setTheme(themes[nextIndex]);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Navigation */}
@@ -71,6 +97,15 @@ export function Landing() {
             </div>
             
             <div className="flex items-center space-x-4">
+              {/* Theme Toggle */}
+              <button
+                onClick={cycleTheme}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                title={`Current theme: ${theme}. Click to cycle through themes.`}
+              >
+                {getThemeIcon()}
+              </button>
+              
               <Link to="/login">
                 <Button variant="ghost">Sign In</Button>
               </Link>
