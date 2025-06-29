@@ -22,18 +22,18 @@ const mockNotifications: Notification[] = [
   {
     id: '1',
     type: 'achievement',
-    title: 'Quiz Master!',
-    message: 'You\'ve completed 10 quizzes this week. Keep up the great work!',
+    title: 'Quiz Master Achievement! 🏆',
+    message: 'Congratulations! You\'ve completed 10 quizzes this week and maintained an average score of 87%. Keep up the excellent work!',
     timestamp: new Date(Date.now() - 300000), // 5 minutes ago
     read: false,
     actionUrl: '/quiz-history',
-    actionText: 'View Quizzes'
+    actionText: 'View Progress'
   },
   {
     id: '2',
     type: 'quiz',
-    title: 'New Quiz Available',
-    message: 'React Components Quiz has been generated from your uploaded PDF.',
+    title: 'New Quiz Ready',
+    message: 'Your "React Components & Lifecycle" quiz has been generated from the uploaded PDF. It contains 15 questions covering all key concepts.',
     timestamp: new Date(Date.now() - 1800000), // 30 minutes ago
     read: false,
     actionUrl: '/quiz/1',
@@ -42,18 +42,18 @@ const mockNotifications: Notification[] = [
   {
     id: '3',
     type: 'reminder',
-    title: 'Study Reminder',
-    message: 'Don\'t forget to review your JavaScript flashcards today!',
+    title: 'Study Reminder 📚',
+    message: 'Don\'t forget to review your JavaScript ES6 flashcards today! You\'re on a 5-day study streak.',
     timestamp: new Date(Date.now() - 3600000), // 1 hour ago
     read: true,
     actionUrl: '/flashcards',
-    actionText: 'Review Cards'
+    actionText: 'Review Now'
   },
   {
     id: '4',
     type: 'success',
-    title: 'Notes Generated',
-    message: 'Your comprehensive notes from "Machine Learning Basics.pdf" are ready.',
+    title: 'Notes Generated Successfully',
+    message: 'Your comprehensive study notes from "Machine Learning Fundamentals.pdf" are ready. The notes include key concepts, examples, and practice questions.',
     timestamp: new Date(Date.now() - 7200000), // 2 hours ago
     read: true,
     actionUrl: '/notes',
@@ -62,18 +62,28 @@ const mockNotifications: Notification[] = [
   {
     id: '5',
     type: 'info',
-    title: 'Feature Update',
-    message: 'New mind mapping tools are now available in your dashboard.',
+    title: 'New Feature Available',
+    message: 'Enhanced mind mapping tools with AI-powered suggestions are now available. Create visual learning maps from your notes automatically.',
     timestamp: new Date(Date.now() - 86400000), // 1 day ago
     read: true,
     actionUrl: '/mindmap',
     actionText: 'Try Now'
+  },
+  {
+    id: '6',
+    type: 'warning',
+    title: 'Storage Almost Full',
+    message: 'You\'ve used 4.2GB of your 5GB storage limit. Consider upgrading to Pro for unlimited storage.',
+    timestamp: new Date(Date.now() - 172800000), // 2 days ago
+    read: false,
+    actionUrl: '/pricing',
+    actionText: 'Upgrade'
   }
 ];
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>(() => {
-    const saved = localStorage.getItem('notifications');
+    const saved = localStorage.getItem('quizcraft_notifications');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -92,7 +102,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
   // Save to localStorage whenever notifications change
   useEffect(() => {
-    localStorage.setItem('notifications', JSON.stringify(notifications));
+    localStorage.setItem('quizcraft_notifications', JSON.stringify(notifications));
   }, [notifications]);
 
   const addNotification = (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => {
