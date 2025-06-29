@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Bell, 
@@ -134,6 +134,39 @@ export function NotificationCenter({
   onClearAll
 }: NotificationCenterProps) {
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
+  const notificationRef = useRef<HTMLDivElement>(null);
+
+  // Handle click outside to close
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isOpen, onClose]);
+
+  // Handle escape key to close
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => {
+        document.removeEventListener('keydown', handleEscapeKey);
+      };
+    }
+  }, [isOpen, onClose]);
 
   const filteredNotifications = notifications.filter(notification => {
     return filter === 'all' || (filter === 'unread' && !notification.read);
@@ -146,6 +179,7 @@ export function NotificationCenter({
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-start justify-end z-50 p-4">
       <motion.div
+        ref={notificationRef}
         initial={{ opacity: 0, x: 300, scale: 0.95 }}
         animate={{ opacity: 1, x: 0, scale: 1 }}
         exit={{ opacity: 0, x: 300, scale: 0.95 }}
