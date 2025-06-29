@@ -18,8 +18,6 @@ export function PlanCard({ plan, isCurrentPlan, onSelectPlan, isLoading, annual 
       case 'free':
         return <Star className="w-6 h-6" />;
       case 'pro':
-        return <Zap className="w-6 h-6" />;
-      case 'pro_plus':
         return <Crown className="w-6 h-6" />;
       default:
         return <Star className="w-6 h-6" />;
@@ -32,8 +30,6 @@ export function PlanCard({ plan, isCurrentPlan, onSelectPlan, isLoading, annual 
         return 'from-gray-500 to-gray-600';
       case 'pro':
         return 'from-indigo-500 to-purple-600';
-      case 'pro_plus':
-        return 'from-purple-500 to-pink-600';
       default:
         return 'from-gray-500 to-gray-600';
     }
@@ -45,12 +41,12 @@ export function PlanCard({ plan, isCurrentPlan, onSelectPlan, isLoading, annual 
   return (
     <motion.div
       whileHover={{ y: -4, scale: 1.02 }}
-      className={`relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 ${
+      className={`relative bg-white dark:bg-gray-800/70 rounded-2xl shadow-lg border-2 transition-all duration-300 ${
         isCurrentPlan 
-          ? 'border-indigo-500 shadow-indigo-200' 
+          ? 'border-indigo-500 shadow-indigo-200 dark:shadow-indigo-900/50' 
           : plan.popular 
-            ? 'border-indigo-200 shadow-xl' 
-            : 'border-gray-200 hover:border-indigo-300'
+            ? 'border-indigo-200 dark:border-indigo-700 shadow-xl' 
+            : 'border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600'
       } ${plan.popular ? 'scale-105' : ''}`}
     >
       {plan.popular && (
@@ -75,26 +71,26 @@ export function PlanCard({ plan, isCurrentPlan, onSelectPlan, isLoading, annual 
           <div className={`w-16 h-16 bg-gradient-to-r ${getGradient()} rounded-2xl flex items-center justify-center mx-auto mb-4 text-white`}>
             {getIcon()}
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{plan.name}</h3>
           <div className="flex items-center justify-center space-x-2">
-            <span className="text-4xl font-bold text-gray-900">
+            <span className="text-4xl font-bold text-gray-900 dark:text-gray-100">
               ${plan.id === 'free' ? '0' : price}
             </span>
             {plan.id !== 'free' && (
               <div className="text-left">
                 {annual && originalPrice > price && (
-                  <div className="text-sm text-gray-500 line-through">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 line-through">
                     ${originalPrice}
                   </div>
                 )}
-                <div className="text-gray-600">
+                <div className="text-gray-600 dark:text-gray-400">
                   /{annual ? 'year' : 'month'}
                 </div>
               </div>
             )}
           </div>
           {annual && plan.id !== 'free' && (
-            <div className="text-sm text-emerald-600 font-medium mt-1">
+            <div className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mt-1">
               Save ${originalPrice - price} per year
             </div>
           )}
@@ -104,10 +100,10 @@ export function PlanCard({ plan, isCurrentPlan, onSelectPlan, isLoading, annual 
         <div className="space-y-4 mb-8">
           {plan.features.map((feature, index) => (
             <div key={index} className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center mt-0.5">
-                <Check className="w-3 h-3 text-emerald-600" />
+              <div className="flex-shrink-0 w-5 h-5 bg-emerald-100 dark:bg-emerald-900/50 rounded-full flex items-center justify-center mt-0.5">
+                <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+              <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature}</span>
             </div>
           ))}
         </div>
@@ -138,7 +134,7 @@ export function PlanCard({ plan, isCurrentPlan, onSelectPlan, isLoading, annual 
           )}
           
           {plan.id !== 'free' && (
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
               Cancel anytime • No setup fees
             </p>
           )}

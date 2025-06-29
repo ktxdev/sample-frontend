@@ -129,7 +129,7 @@ export function Pricing() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6"
           >
-            Choose Your Perfect Plan
+            Simple, Transparent Pricing
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -137,7 +137,7 @@ export function Pricing() {
             transition={{ delay: 0.1 }}
             className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto"
           >
-            Unlock the full potential of AI-powered learning with our flexible pricing plans
+            Start free and upgrade when you need more power. No hidden fees, no surprises.
           </motion.p>
 
           {/* Billing Toggle */}
@@ -174,7 +174,7 @@ export function Pricing() {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.id}
@@ -233,7 +233,7 @@ export function Pricing() {
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
-                question: 'Can I change my plan anytime?',
+                question: 'Can I upgrade or downgrade anytime?',
                 answer: 'Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately for upgrades, or at the end of your billing cycle for downgrades.'
               },
               {
@@ -241,12 +241,12 @@ export function Pricing() {
                 answer: 'We accept all major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, and Google Pay. All payments are processed securely.'
               },
               {
-                question: 'Is there a free trial?',
-                answer: 'Yes! All paid plans come with a 14-day free trial. No credit card required to start your trial.'
+                question: 'Is there a free trial for Pro?',
+                answer: 'Yes! The Pro plan comes with a 14-day free trial. No credit card required to start your trial.'
               },
               {
-                question: 'What happens to my data if I cancel?',
-                answer: 'Your data remains accessible for 30 days after cancellation. You can export all your content during this period.'
+                question: 'What happens to my data if I downgrade?',
+                answer: 'Your data remains safe. You can export all your content anytime. Some features may be limited based on your plan.'
               }
             ].map((faq, index) => (
               <Card key={index} className="p-6">

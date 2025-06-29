@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Subscription {
-  plan: 'free' | 'pro' | 'pro_plus';
+  plan: 'free' | 'pro';
   status: 'active' | 'canceled' | 'past_due' | 'trialing';
   currentPeriodEnd: Date;
   cancelAtPeriodEnd: boolean;
@@ -16,7 +16,7 @@ export interface Subscription {
 }
 
 export interface Plan {
-  id: 'free' | 'pro' | 'pro_plus';
+  id: 'free' | 'pro';
   name: string;
   price: number;
   interval: 'month' | 'year';

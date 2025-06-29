@@ -42,46 +42,22 @@ const plans: Plan[] = [
   {
     id: 'pro',
     name: 'Pro',
-    price: 19,
+    price: 29,
     interval: 'month',
     features: [
       'Unlimited quizzes',
-      '5GB document storage',
+      'Unlimited document storage',
       'Unlimited AI questions',
       'Unlimited flashcards',
       'Unlimited mind maps',
       'All export formats',
       'Priority support',
       'Advanced analytics',
-      'Custom branding'
-    ],
-    limits: {
-      quizzesPerMonth: 'unlimited',
-      documentsStorage: '5GB',
-      aiQuestions: 'unlimited',
-      flashcards: 'unlimited',
-      mindMaps: 'unlimited',
-      exportFormats: ['PDF', 'Word', 'Excel', 'PowerPoint'],
-      prioritySupport: true,
-      advancedAnalytics: true,
-      teamCollaboration: false
-    },
-    popular: true
-  },
-  {
-    id: 'pro_plus',
-    name: 'Pro Plus',
-    price: 39,
-    interval: 'month',
-    features: [
-      'Everything in Pro',
-      'Unlimited document storage',
       'Team collaboration (up to 10 members)',
+      'Custom branding',
       'White-label solution',
       'API access',
-      'Custom integrations',
-      'Dedicated account manager',
-      'SLA guarantee'
+      'Custom integrations'
     ],
     limits: {
       quizzesPerMonth: 'unlimited',
@@ -94,6 +70,7 @@ const plans: Plan[] = [
       advancedAnalytics: true,
       teamCollaboration: true
     },
+    popular: true,
     badge: 'Most Popular'
   }
 ];
