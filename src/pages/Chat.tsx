@@ -292,7 +292,7 @@ export function Chat() {
                             type="text"
                             value={editGroupName}
                             onChange={(e) => setEditGroupName(e.target.value)}
-                            className="flex-1 text-sm font-medium bg-white border border-gray-300 rounded px-2 py-1"
+                            className="flex-1 text-sm font-medium bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-900 dark:text-gray-100"
                             onKeyPress={(e) => e.key === 'Enter' && handleSaveGroupEdit()}
                             autoFocus
                           />
@@ -480,7 +480,7 @@ export function Chat() {
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={`Ask a question about ${selectedGroup?.name}...`}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
                   rows={1}
                 />
               </div>
@@ -538,7 +538,7 @@ export function Chat() {
                           key={color}
                           onClick={() => setNewGroupColor(color)}
                           className={`w-8 h-8 rounded-full border-2 ${
-                            newGroupColor === color ? 'border-gray-900' : 'border-gray-300'
+                            newGroupColor === color ? 'border-gray-900 dark:border-gray-100' : 'border-gray-300 dark:border-gray-600'
                           }`}
                           style={{ backgroundColor: color }}
                         />
@@ -589,9 +589,9 @@ export function Chat() {
                                 type="checkbox"
                                 checked={group.documentIds.includes(doc.id)}
                                 onChange={() => toggleDocumentInGroup(doc.id, group.id)}
-                                className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                className="rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500 bg-white dark:bg-gray-700"
                               />
-                              <span className="text-gray-700">{doc.name}</span>
+                              <span className="text-gray-700 dark:text-gray-300">{doc.name}</span>
                             </label>
                           ))}
                         </div>
