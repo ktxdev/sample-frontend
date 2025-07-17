@@ -246,22 +246,22 @@ export function Subscription() {
               { date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), amount: currentPlan.price, status: 'paid' },
               { date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000), amount: currentPlan.price, status: 'paid' }
             ].map((invoice, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div key={index} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
                 <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
+                  <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/50 rounded-lg flex items-center justify-center">
+                    <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
                       ${invoice.amount} - {currentPlan.name} Plan
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {formatDate(invoice.date)}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
                     Paid
                   </span>
                   <Button variant="ghost" size="sm">
@@ -276,12 +276,12 @@ export function Subscription() {
 
       {/* Danger Zone */}
       {currentPlan.id !== 'free' && !user?.subscription?.cancelAtPeriodEnd && (
-        <Card className="p-6 border-red-200">
-          <h2 className="text-xl font-semibold text-red-600 mb-4">Danger Zone</h2>
-          <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+        <Card className="p-6 border-red-200 dark:border-red-800">
+          <h2 className="text-xl font-semibold text-red-600 dark:text-red-400 mb-4">Danger Zone</h2>
+          <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
             <div>
-              <h3 className="font-medium text-red-900">Cancel Subscription</h3>
-              <p className="text-sm text-red-700">
+              <h3 className="font-medium text-red-900 dark:text-red-100">Cancel Subscription</h3>
+              <p className="text-sm text-red-700 dark:text-red-300">
                 You'll continue to have access until {formatDate(user?.subscription?.currentPeriodEnd || new Date())}
               </p>
             </div>
@@ -301,13 +301,13 @@ export function Subscription() {
           <Card className="w-full max-w-md">
             <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                  <XCircle className="w-5 h-5 text-red-600" />
+                <div className="w-10 h-10 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center">
+                  <XCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                 </div>
-                <h2 className="text-lg font-semibold text-gray-900">Cancel Subscription</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Cancel Subscription</h2>
               </div>
               
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Are you sure you want to cancel your subscription? You'll lose access to all Pro features at the end of your billing period.
               </p>
               
